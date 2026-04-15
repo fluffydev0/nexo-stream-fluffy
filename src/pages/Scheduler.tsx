@@ -30,7 +30,7 @@ interface Transaction {
 
 export default function Scheduler() {
   const { user, profile } = useAuth();
-  const { connected, publicKey, signTransaction } = useWallet();
+  const { connected, address } = useWallet();
   const { network, explorerBaseUrl } = useStellar();
   const [positions, setPositions] = useState<Position[]>([]);
   const [showModal, setShowModal] = useState(false);
