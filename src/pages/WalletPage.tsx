@@ -185,18 +185,18 @@ export default function WalletPage() {
       </div>
 
       {/* Tabs */}
-      <div className="flex gap-2">
+      <div className="flex gap-2 overflow-x-auto">
         <button onClick={() => setTab('wallet')}
-          className={`flex-1 py-2.5 rounded-xl text-sm font-medium transition-colors ${tab === 'wallet' ? 'bg-primary text-primary-foreground' : 'bg-secondary text-muted-foreground'}`}>
+          className={`flex-1 min-w-[80px] py-2.5 rounded-xl text-xs sm:text-sm font-medium transition-colors whitespace-nowrap ${tab === 'wallet' ? 'bg-primary text-primary-foreground' : 'bg-secondary text-muted-foreground'}`}>
           Deposit
         </button>
         <button onClick={() => setTab('convert')}
-          className={`flex-1 py-2.5 rounded-xl text-sm font-medium transition-colors ${tab === 'convert' ? 'bg-primary text-primary-foreground' : 'bg-secondary text-muted-foreground'}`}>
-          Convert & Withdraw
+          className={`flex-1 min-w-[80px] py-2.5 rounded-xl text-xs sm:text-sm font-medium transition-colors whitespace-nowrap ${tab === 'convert' ? 'bg-primary text-primary-foreground' : 'bg-secondary text-muted-foreground'}`}>
+          Convert
         </button>
         <button onClick={() => setTab('receive')}
-          className={`flex-1 py-2.5 rounded-xl text-sm font-medium transition-colors ${tab === 'receive' ? 'bg-primary text-primary-foreground' : 'bg-secondary text-muted-foreground'}`}>
-          Receive USDC
+          className={`flex-1 min-w-[80px] py-2.5 rounded-xl text-xs sm:text-sm font-medium transition-colors whitespace-nowrap ${tab === 'receive' ? 'bg-primary text-primary-foreground' : 'bg-secondary text-muted-foreground'}`}>
+          Receive
         </button>
       </div>
 
