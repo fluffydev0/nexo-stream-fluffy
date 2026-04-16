@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, useEffect, useCallback, ReactNode } from 'react';
+import { supabase } from '@/lib/supabase';
 
 interface WalletContextType {
   address: string | null;
@@ -126,6 +127,12 @@ export function WalletProvider({ children }: { children: ReactNode }) {
       localStorage.setItem('nexol_wallet_address', addr);
       await fetchBalance(addr);
       await fetchChainId();
+
+      // Save wallet address to user profile
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) {
+        await supabase.from('users').update({ wallet_address: addr }).eq('id', user.id);
+      }
     } catch (err: any) {
       if (err.code === 4001) {
         setError('Connection rejected by user.');
