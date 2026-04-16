@@ -10,6 +10,7 @@ interface UserProfile {
   usdc_balance: number;
   kyc_status: 'pending' | 'verified' | 'rejected';
   kyc_rejection_reason: string | null;
+  wallet_address: string | null;
 }
 
 interface AuthContextType {
