@@ -52,10 +52,11 @@ export default function Scheduler() {
   }, [user]);
 
   const fetchPositions = async () => {
+    if (!user) return;
     const { data } = await supabase
       .from('scheduler_positions')
       .select('*, scheduler_transactions(*)')
-      .eq('user_id', user!.id)
+      .eq('user_id', user.id)
       .order('created_at', { ascending: false });
     if (data) setPositions(data as Position[]);
   };
@@ -79,9 +80,10 @@ export default function Scheduler() {
     setError(null);
 
     try {
+      if (!user) throw new Error('Not authenticated');
       const { data, error: fnError } = await supabase.functions.invoke('create-stellar-schedule', {
         body: {
-          user_id: user!.id,
+          user_id: user.id,
           wallet_address: address,
           type: tab,
           total_amount: Number(amount),
