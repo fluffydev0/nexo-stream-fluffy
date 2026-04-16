@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
+import { useWallet } from '@/contexts/WalletContext';
 import { supabase } from '@/lib/supabase';
 import { CalendarClock, Plus, Lock, CheckCircle, Copy, ExternalLink, AlertTriangle, RefreshCw } from 'lucide-react';
 
