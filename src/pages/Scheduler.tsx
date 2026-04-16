@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
+import { useWallet } from '@/contexts/WalletContext';
 import { supabase } from '@/lib/supabase';
 import { CalendarClock, Plus, Lock, CheckCircle, Copy, ExternalLink, AlertTriangle, RefreshCw } from 'lucide-react';
 
@@ -27,8 +28,7 @@ interface Transaction {
 
 export default function Scheduler() {
   const { user, profile } = useAuth();
-  const connected = true; // Wallet removed — scheduler works without wallet gating
-  const address = ''; // Placeholder
+  const { connected, address } = useWallet();
   const [positions, setPositions] = useState<Position[]>([]);
   const [showModal, setShowModal] = useState(false);
   const [tab, setTab] = useState<'7day' | 'monthly'>('monthly');
