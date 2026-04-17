@@ -80,6 +80,197 @@ export type Database = {
         }
         Relationships: []
       }
+      contract_events: {
+        Row: {
+          actor_id: string | null
+          actor_role: string
+          contract_id: string
+          created_at: string
+          details: Json | null
+          event_type: string
+          id: string
+          milestone_id: string | null
+        }
+        Insert: {
+          actor_id?: string | null
+          actor_role: string
+          contract_id: string
+          created_at?: string
+          details?: Json | null
+          event_type: string
+          id?: string
+          milestone_id?: string | null
+        }
+        Update: {
+          actor_id?: string | null
+          actor_role?: string
+          contract_id?: string
+          created_at?: string
+          details?: Json | null
+          event_type?: string
+          id?: string
+          milestone_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "contract_events_contract_id_fkey"
+            columns: ["contract_id"]
+            isOneToOne: false
+            referencedRelation: "contracts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "contract_events_milestone_id_fkey"
+            columns: ["milestone_id"]
+            isOneToOne: false
+            referencedRelation: "contract_milestones"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      contract_milestones: {
+        Row: {
+          amount: number
+          approved_at: string | null
+          auto_release_at: string | null
+          contract_id: string
+          created_at: string
+          deliverable_note: string | null
+          deliverable_url: string | null
+          description: string | null
+          due_date: string
+          id: string
+          paid_at: string | null
+          payment_requested_at: string | null
+          percentage: number
+          position: number
+          status: Database["public"]["Enums"]["milestone_status"]
+          stellar_tx_hash: string | null
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          amount: number
+          approved_at?: string | null
+          auto_release_at?: string | null
+          contract_id: string
+          created_at?: string
+          deliverable_note?: string | null
+          deliverable_url?: string | null
+          description?: string | null
+          due_date: string
+          id?: string
+          paid_at?: string | null
+          payment_requested_at?: string | null
+          percentage: number
+          position: number
+          status?: Database["public"]["Enums"]["milestone_status"]
+          stellar_tx_hash?: string | null
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          amount?: number
+          approved_at?: string | null
+          auto_release_at?: string | null
+          contract_id?: string
+          created_at?: string
+          deliverable_note?: string | null
+          deliverable_url?: string | null
+          description?: string | null
+          due_date?: string
+          id?: string
+          paid_at?: string | null
+          payment_requested_at?: string | null
+          percentage?: number
+          position?: number
+          status?: Database["public"]["Enums"]["milestone_status"]
+          stellar_tx_hash?: string | null
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "contract_milestones_contract_id_fkey"
+            columns: ["contract_id"]
+            isOneToOne: false
+            referencedRelation: "contracts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      contracts: {
+        Row: {
+          client_email: string
+          client_id: string | null
+          completed_at: string | null
+          contract_code: string
+          created_at: string
+          currency: string
+          deadline: string
+          description: string | null
+          dispute_method: Database["public"]["Enums"]["dispute_method"]
+          escrow_pubkey: string | null
+          escrow_secret: string | null
+          freelancer_email: string
+          freelancer_id: string
+          funded_at: string | null
+          id: string
+          public_share_code: string
+          status: Database["public"]["Enums"]["contract_status"]
+          stellar_network: string
+          title: string
+          total_amount: number
+          updated_at: string
+        }
+        Insert: {
+          client_email: string
+          client_id?: string | null
+          completed_at?: string | null
+          contract_code: string
+          created_at?: string
+          currency?: string
+          deadline: string
+          description?: string | null
+          dispute_method?: Database["public"]["Enums"]["dispute_method"]
+          escrow_pubkey?: string | null
+          escrow_secret?: string | null
+          freelancer_email: string
+          freelancer_id: string
+          funded_at?: string | null
+          id?: string
+          public_share_code?: string
+          status?: Database["public"]["Enums"]["contract_status"]
+          stellar_network?: string
+          title: string
+          total_amount: number
+          updated_at?: string
+        }
+        Update: {
+          client_email?: string
+          client_id?: string | null
+          completed_at?: string | null
+          contract_code?: string
+          created_at?: string
+          currency?: string
+          deadline?: string
+          description?: string | null
+          dispute_method?: Database["public"]["Enums"]["dispute_method"]
+          escrow_pubkey?: string | null
+          escrow_secret?: string | null
+          freelancer_email?: string
+          freelancer_id?: string
+          funded_at?: string | null
+          id?: string
+          public_share_code?: string
+          status?: Database["public"]["Enums"]["contract_status"]
+          stellar_network?: string
+          title?: string
+          total_amount?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
       gift_card_redemptions: {
         Row: {
           actioned_at: string | null
@@ -429,6 +620,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      generate_contract_code: { Args: never; Returns: string }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
@@ -436,9 +628,26 @@ export type Database = {
         }
         Returns: boolean
       }
+      is_contract_participant: {
+        Args: { _contract_id: string; _user_id: string }
+        Returns: boolean
+      }
     }
     Enums: {
       app_role: "admin" | "moderator" | "user"
+      contract_status:
+        | "awaiting_funding"
+        | "active"
+        | "disputed"
+        | "completed"
+        | "cancelled"
+      dispute_method: "auto_release_72h" | "nexolpay_arbitration"
+      milestone_status:
+        | "locked"
+        | "in_progress"
+        | "pending_approval"
+        | "paid"
+        | "disputed"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -567,6 +776,21 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["admin", "moderator", "user"],
+      contract_status: [
+        "awaiting_funding",
+        "active",
+        "disputed",
+        "completed",
+        "cancelled",
+      ],
+      dispute_method: ["auto_release_72h", "nexolpay_arbitration"],
+      milestone_status: [
+        "locked",
+        "in_progress",
+        "pending_approval",
+        "paid",
+        "disputed",
+      ],
     },
   },
 } as const
