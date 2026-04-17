@@ -127,7 +127,7 @@ Deno.serve(async (req) => {
     const admin = createClient(supabaseUrl, serviceKey);
 
     // Generate Stellar testnet escrow keypair
-    const escrow = Keypair.random();
+    const escrow = generateStellarKeypair();
 
     // Generate contract code
     const { data: codeData, error: codeErr } = await admin.rpc(
@@ -148,8 +148,8 @@ Deno.serve(async (req) => {
         total_amount: body.total_amount,
         deadline: body.deadline,
         dispute_method: body.dispute_method,
-        escrow_pubkey: escrow.publicKey(),
-        escrow_secret: escrow.secret(),
+        escrow_pubkey: escrow.publicKey,
+        escrow_secret: escrow.secret,
         stellar_network: "testnet",
         status: "awaiting_funding",
       })
