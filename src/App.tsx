@@ -19,6 +19,9 @@ import GiftCard from "@/pages/GiftCard";
 import VirtualCard from "@/pages/VirtualCard";
 import Transactions from "@/pages/Transactions";
 import SettingsPage from "@/pages/SettingsPage";
+import Contracts from "@/pages/Contracts";
+import ContractDetail from "@/pages/ContractDetail";
+import PublicContractFunding from "@/pages/PublicContractFunding";
 import NotFound from "@/pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -38,10 +41,13 @@ const App = () => (
                 <Route path="/signup" element={<Signup />} />
                 <Route path="/forgot-password" element={<ForgotPassword />} />
                 <Route path="/reset-password" element={<ResetPassword />} />
+                <Route path="/contract/:code" element={<PublicContractFunding />} />
                 <Route path="/dashboard" element={<ProtectedRoute><DashboardLayout /></ProtectedRoute>}>
                   <Route index element={<Dashboard />} />
                   <Route path="scheduler" element={<Scheduler />} />
                   <Route path="vault" element={<Vault />} />
+                  <Route path="contracts" element={<Contracts />} />
+                  <Route path="contracts/:id" element={<ContractDetail />} />
                   <Route path="giftcard" element={<GiftCard />} />
                   <Route path="virtual-card" element={<VirtualCard />} />
                   <Route path="transactions" element={<Transactions />} />
