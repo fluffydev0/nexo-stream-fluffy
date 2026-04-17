@@ -5,13 +5,14 @@ import { useStellar } from '@/contexts/StellarContext';
 import { ConnectWalletButton } from '@/components/ConnectWalletButton';
 import {
   LayoutDashboard, CalendarClock, Lock, CreditCard,
-  Gift, FileText, Settings, LogOut, Bell, Menu, X, ArrowLeft
+  Gift, FileText, Settings, LogOut, Bell, Menu, X, ArrowLeft, Briefcase
 } from 'lucide-react';
 import { useState } from 'react';
 import nexolLogo from '@/assets/nexolpay-logo.png';
 
 const navItems = [
   { to: '/dashboard', icon: LayoutDashboard, label: 'Overview', end: true },
+  { to: '/dashboard/contracts', icon: Briefcase, label: 'Freelance Contracts' },
   { to: '/dashboard/giftcard', icon: Gift, label: 'Gift Cards' },
   { to: '/dashboard/virtual-card', icon: CreditCard, label: 'Virtual Card' },
   { to: '/dashboard/scheduler', icon: CalendarClock, label: 'Income Scheduler' },
