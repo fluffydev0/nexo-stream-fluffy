@@ -1,5 +1,53 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.0";
-import { Keypair } from "https://esm.sh/@stellar/stellar-sdk@12.3.0";
+import * as ed from "https://esm.sh/@noble/ed25519@2.1.0";
+import { sha512 } from "https://esm.sh/@noble/hashes@1.4.0/sha512";
+
+// @ts-ignore - configure ed25519 sync hash
+ed.etc.sha512Sync = (...m: Uint8Array[]) => sha512(ed.etc.concatBytes(...m));
+
+// Stellar StrKey encoding (ed25519 public key → "G..." address, secret → "S..." seed)
+const BASE32_ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567";
+function base32Encode(data: Uint8Array): string {
+  let bits = 0, value = 0, output = "";
+  for (const byte of data) {
+    value = (value << 8) | byte;
+    bits += 8;
+    while (bits >= 5) {
+      output += BASE32_ALPHABET[(value >>> (bits - 5)) & 31];
+      bits -= 5;
+    }
+  }
+  if (bits > 0) output += BASE32_ALPHABET[(value << (5 - bits)) & 31];
+  return output;
+}
+function crc16(data: Uint8Array): Uint8Array {
+  let crc = 0x0000;
+  for (const b of data) {
+    crc ^= b << 8;
+    for (let i = 0; i < 8; i++) {
+      crc = (crc & 0x8000) ? ((crc << 1) ^ 0x1021) & 0xffff : (crc << 1) & 0xffff;
+    }
+  }
+  return new Uint8Array([crc & 0xff, (crc >> 8) & 0xff]);
+}
+function encodeStrKey(versionByte: number, payload: Uint8Array): string {
+  const data = new Uint8Array(1 + payload.length);
+  data[0] = versionByte;
+  data.set(payload, 1);
+  const checksum = crc16(data);
+  const full = new Uint8Array(data.length + 2);
+  full.set(data);
+  full.set(checksum, data.length);
+  return base32Encode(full);
+}
+function generateStellarKeypair(): { publicKey: string; secret: string } {
+  const seed = ed.utils.randomPrivateKey();
+  const pub = ed.getPublicKey(seed);
+  return {
+    publicKey: encodeStrKey(6 << 3, pub),  // 'G' = 0x30
+    secret: encodeStrKey(18 << 3, seed),   // 'S' = 0x90
+  };
+}
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
