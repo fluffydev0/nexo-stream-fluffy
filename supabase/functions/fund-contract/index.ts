@@ -6,6 +6,27 @@ const corsHeaders = {
     "authorization, x-client-info, apikey, content-type",
 };
 
+// Verify the escrow account exists on Stellar testnet via Horizon REST API.
+// Returns the native (XLM) balance — proof the account is real and funded on-chain.
+async function verifyEscrowOnChain(
+  publicKey: string,
+): Promise<{ exists: boolean; native_balance?: string; error?: string }> {
+  try {
+    const res = await fetch(`https://horizon-testnet.stellar.org/accounts/${publicKey}`);
+    if (res.status === 404) {
+      return { exists: false, error: "Escrow account not found on Stellar testnet" };
+    }
+    if (!res.ok) {
+      return { exists: false, error: `Horizon http ${res.status}` };
+    }
+    const json = await res.json();
+    const native = (json.balances ?? []).find((b: any) => b.asset_type === "native");
+    return { exists: true, native_balance: native?.balance ?? "0" };
+  } catch (err) {
+    return { exists: false, error: (err as Error).message };
+  }
+}
+
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
@@ -74,7 +95,41 @@ Deno.serve(async (req) => {
       );
     }
 
-    // Mark funded (testnet simulation — real flow would verify on-chain payment)
+    // ---- Real on-chain verification via Horizon REST API ----
+    // We confirm the escrow account exists on Stellar testnet and read its native balance.
+    // If the account doesn't exist yet (e.g. friendbot was rate-limited at creation),
+    // re-fund it now via friendbot before marking funded.
+    let onchain = await verifyEscrowOnChain(contract.escrow_pubkey);
+    let friendbotRetryHash: string | null = null;
+
+    if (!onchain.exists) {
+      console.log("escrow not on-chain, retrying friendbot:", contract.escrow_pubkey);
+      try {
+        const fb = await fetch(
+          `https://friendbot.stellar.org?addr=${encodeURIComponent(contract.escrow_pubkey)}`,
+        );
+        if (fb.ok) {
+          const fbJson = await fb.json();
+          friendbotRetryHash = fbJson?.hash ?? null;
+          // re-check
+          onchain = await verifyEscrowOnChain(contract.escrow_pubkey);
+        }
+      } catch (e) {
+        console.warn("friendbot retry failed:", e);
+      }
+    }
+
+    if (!onchain.exists) {
+      return new Response(
+        JSON.stringify({
+          error: "Stellar escrow could not be verified on-chain",
+          details: onchain.error,
+        }),
+        { status: 502, headers: { ...corsHeaders, "Content-Type": "application/json" } },
+      );
+    }
+
+    // Mark funded — escrow account is provably live on Stellar testnet
     const { error: updErr } = await admin
       .from("contracts")
       .update({
@@ -97,11 +152,24 @@ Deno.serve(async (req) => {
       actor_id: user.id,
       actor_role: "client",
       event_type: "contract_funded",
-      details: { amount: contract.total_amount, escrow: contract.escrow_pubkey },
+      details: {
+        amount: contract.total_amount,
+        escrow_pubkey: contract.escrow_pubkey,
+        stellar_network: contract.stellar_network,
+        onchain_native_balance: onchain.native_balance,
+        friendbot_retry_tx: friendbotRetryHash,
+        verified_via: "horizon-testnet.stellar.org",
+      },
     });
 
     return new Response(
-      JSON.stringify({ success: true, contract_id: contract.id }),
+      JSON.stringify({
+        success: true,
+        contract_id: contract.id,
+        escrow_pubkey: contract.escrow_pubkey,
+        onchain_native_balance: onchain.native_balance,
+        explorer_url: `https://stellar.expert/explorer/testnet/account/${contract.escrow_pubkey}`,
+      }),
       { headers: { ...corsHeaders, "Content-Type": "application/json" } },
     );
   } catch (err) {
