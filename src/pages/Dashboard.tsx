@@ -2,7 +2,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { useWallet } from '@/contexts/WalletContext';
 import { useStellar } from '@/contexts/StellarContext';
 import { useNavigate } from 'react-router-dom';
-import { CalendarClock, Lock, TrendingUp, Gift, CreditCard, ArrowRight, DollarSign, X, Sparkles, Clock, Zap } from 'lucide-react';
+import { CalendarClock, TrendingUp, Gift, Briefcase, ArrowRight, DollarSign, X, Sparkles, Clock, Zap } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabase';
 import { ConnectWalletButton } from '@/components/ConnectWalletButton';
@@ -23,19 +23,15 @@ export default function Dashboard() {
     if (!user) return;
 
     const fetchStats = async () => {
-      const [schedulerRes, vaultRes, schedulerTxRes, giftCardRes] = await Promise.all([
+      const [schedulerRes, schedulerTxRes, giftCardRes] = await Promise.all([
         supabase.from('scheduler_positions').select('total_amount').eq('user_id', user.id).eq('status', 'active'),
-        supabase.from('vault_positions').select('principal_amount, apy_rate, deposit_date').eq('user_id', user.id).eq('status', 'active'),
         supabase.from('scheduler_transactions').select('unlock_timestamp').eq('user_id', user.id).eq('submitted', false).order('unlock_timestamp', { ascending: true }).limit(1),
         supabase.from('gift_card_redemptions').select('usdt_payout').eq('user_id', user.id).eq('status', 'approved'),
       ]);
 
       const scheduled = schedulerRes.data?.reduce((s, r) => s + Number(r.total_amount), 0) ?? 0;
-      const vaulted = vaultRes.data?.reduce((s, r) => s + Number(r.principal_amount), 0) ?? 0;
-      const earned = vaultRes.data?.reduce((s, r) => {
-        const days = (Date.now() - new Date(r.deposit_date).getTime()) / (1000 * 60 * 60 * 24);
-        return s + Number(r.principal_amount) * (Number(r.apy_rate) / 100) * (days / 365);
-      }, 0) ?? 0;
+      const vaulted = 0;
+      const earned = 0;
       const redeemed = giftCardRes.data?.reduce((s, r) => s + Number(r.usdt_payout), 0) ?? 0;
 
       const nextPayout = schedulerTxRes.data?.[0]
@@ -55,15 +51,14 @@ export default function Dashboard() {
 
   const statCards = [
     { label: 'Wallet Balance', value: profile?.usdc_balance ?? 0, unit: 'USDC', icon: DollarSign, color: 'text-primary' },
-    { label: 'Total Locked', value: stats.vaulted, unit: 'in Vault', icon: Lock, color: 'text-blue-400' },
-    { label: 'Total Earned', value: stats.earned, unit: 'yield', icon: TrendingUp, color: 'text-primary' },
+    { label: 'Scheduled', value: stats.scheduled, unit: 'in escrow', icon: CalendarClock, color: 'text-primary' },
+    { label: 'Gift Cards Redeemed', value: stats.redeemed, unit: 'USDC payouts', icon: TrendingUp, color: 'text-primary' },
   ];
 
   const quickActions = [
+    { icon: CalendarClock, title: 'Income Scheduler', desc: 'Automate weekly payouts', to: '/dashboard/scheduler' },
     { icon: Gift, title: 'Redeem Gift Card', desc: 'Amazon & Apple → USDC', to: '/dashboard/giftcard' },
-    { icon: CalendarClock, title: 'Schedule Payment', desc: 'One-time or recurring', to: '/dashboard/scheduler' },
-    { icon: Lock, title: 'Vault Deposit', desc: 'Earn up to 10% APY', to: '/dashboard/vault' },
-    { icon: CreditCard, title: 'Virtual Card', desc: 'Spend USDT anywhere', to: '/dashboard/virtual-card' },
+    { icon: Briefcase, title: 'Freelancer Escrow', desc: 'Milestone-based payments', to: '/dashboard/contracts' },
   ];
 
   return (
