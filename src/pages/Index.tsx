@@ -1,237 +1,256 @@
 import { Link } from 'react-router-dom';
-import { Gift, DollarSign, Lock, Check } from 'lucide-react';
-import nexolLogo from '@/assets/nexolpay-logo.png';
+import { Calendar, Gift, ShieldCheck, Check, ArrowRight, Lock, Zap } from 'lucide-react';
 
 const Index = () => {
   return (
-    <div className="min-h-screen bg-white text-slate-900 font-sans">
+    <div className="min-h-screen bg-[#0A0A0A] text-white font-sans antialiased">
       {/* NAV */}
-      <header className="sticky top-0 z-50 bg-white/90 backdrop-blur border-b border-slate-100">
-        <nav className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-          <Link to="/" className="flex items-center gap-2">
-            <span className="text-xl font-bold text-slate-900">Nexol</span>
-            <span className="text-xl font-bold text-emerald-400">Pay</span>
+      <header className="sticky top-0 z-50 bg-[#0A0A0A]/80 backdrop-blur-xl border-b border-white/5">
+        <nav className="max-w-7xl mx-auto px-6 py-5 flex items-center justify-between">
+          <Link to="/" className="flex items-center gap-1.5">
+            <span className="text-xl font-bold tracking-tight">Nexol</span>
+            <span className="text-xl font-bold tracking-tight text-[#00D98B]">Pay</span>
           </Link>
-          <ul className="hidden md:flex items-center gap-8 text-sm text-slate-600">
-            <li><a href="#features" className="hover:text-slate-900">Features</a></li>
-            <li><a href="#company" className="hover:text-slate-900">Company</a></li>
-            <li><a href="#products" className="hover:text-slate-900">Products</a></li>
-            <li><a href="#security" className="hover:text-slate-900">Security</a></li>
+          <ul className="hidden md:flex items-center gap-9 text-sm text-white/60">
+            <li><a href="#features" className="hover:text-white transition">Features</a></li>
+            <li><a href="#how" className="hover:text-white transition">How it works</a></li>
+            <li><a href="#security" className="hover:text-white transition">Security</a></li>
           </ul>
-          <Link
-            to="/signup"
-            className="bg-slate-900 text-white text-sm font-medium px-5 py-2.5 rounded-full hover:bg-slate-800 transition"
-          >
-            Get Started
-          </Link>
+          <div className="flex items-center gap-3">
+            <Link to="/login" className="hidden sm:inline text-sm text-white/70 hover:text-white transition">Sign in</Link>
+            <Link
+              to="/signup"
+              className="bg-[#00D98B] text-[#0A0A0A] text-sm font-semibold px-5 py-2.5 rounded-full hover:bg-[#00C77E] transition"
+            >
+              Get Started
+            </Link>
+          </div>
         </nav>
       </header>
 
       {/* HERO */}
       <section className="relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-emerald-100/50 rounded-full blur-3xl -z-0" />
-        <div className="max-w-7xl mx-auto px-6 py-20 md:py-28 grid md:grid-cols-2 gap-12 items-center relative">
-          <div>
-            <span className="inline-block text-xs font-semibold text-emerald-500 bg-emerald-50 border border-emerald-200 px-4 py-1.5 rounded-full mb-6">
-              NOW LIVE ON BASE MAINNET
-            </span>
-            <h1 className="text-5xl md:text-6xl font-bold leading-tight tracking-tight">
-              The Future of <br />
-              <span className="text-emerald-400">Digital Finance.</span>
-            </h1>
-            <p className="mt-6 text-slate-600 text-lg max-w-md leading-relaxed">
-              Redeem gift cards, off-ramp crypto, and schedule your savings with ease on the most secure platform built on Base. Experience borderless payments with zero hidden fees.
-            </p>
-            <div className="mt-8 flex items-center gap-4">
-              <Link
-                to="/signup"
-                className="bg-slate-900 text-white font-medium px-7 py-3 rounded-full hover:bg-slate-800 transition"
-              >
-                Get Started
-              </Link>
-              <Link
-                to="/login"
-                className="text-slate-700 font-medium px-7 py-3 rounded-full border border-slate-200 hover:bg-slate-50 transition"
-              >
-                Sign In
-              </Link>
-            </div>
+        <div className="absolute top-20 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-[#00D98B]/10 rounded-full blur-[120px] -z-0" />
+        <div className="max-w-5xl mx-auto px-6 pt-24 pb-20 md:pt-32 md:pb-28 text-center relative">
+          <span className="inline-flex items-center gap-2 text-xs font-medium text-[#00D98B] bg-[#00D98B]/10 border border-[#00D98B]/20 px-4 py-1.5 rounded-full mb-8">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#00D98B] animate-pulse" />
+            Stellar testnet — live & verifiable
+          </span>
+          <h1 className="text-5xl md:text-7xl font-bold leading-[1.05] tracking-tight">
+            Crypto payments<br />
+            <span className="text-[#00D98B]">that just work.</span>
+          </h1>
+          <p className="mt-7 text-white/60 text-lg max-w-xl mx-auto leading-relaxed">
+            Schedule recurring USDC payouts, redeem gift cards for instant USDT, and lock freelance work in on-chain escrow. Built on Stellar.
+          </p>
+          <div className="mt-10 flex items-center justify-center gap-3 flex-wrap">
+            <Link
+              to="/signup"
+              className="bg-[#00D98B] text-[#0A0A0A] font-semibold px-7 py-3.5 rounded-full hover:bg-[#00C77E] transition inline-flex items-center gap-2"
+            >
+              Get Started <ArrowRight className="w-4 h-4" />
+            </Link>
+            <a
+              href="#features"
+              className="text-white/80 font-medium px-7 py-3.5 rounded-full border border-white/10 hover:bg-white/5 transition"
+            >
+              Explore features
+            </a>
           </div>
 
-          {/* Visual mock */}
-          <div className="relative h-[500px] flex items-center justify-center">
-            <div className="absolute w-64 h-[440px] bg-orange-200 rounded-[2.5rem] rotate-[-8deg] shadow-2xl flex items-end justify-center pb-10">
-              <div className="bg-white rounded-2xl px-6 py-3 shadow-lg rotate-[-4deg]">
-                <p className="text-xs font-semibold text-slate-700">Gift Card</p>
-                <p className="text-xs text-slate-500">Selection</p>
-              </div>
-            </div>
-            <div className="relative w-64 h-[440px] bg-slate-50 border border-slate-200 rounded-[2.5rem] rotate-[6deg] shadow-2xl p-5">
-              <div className="bg-white rounded-2xl p-4 shadow-sm">
-                <p className="text-[10px] font-semibold text-slate-400 mb-1">SCHEDULER</p>
-                <p className="text-sm font-bold text-slate-900 mb-3">NexolVault</p>
-                <div className="space-y-2">
-                  <div className="h-2 bg-emerald-100 rounded w-full" />
-                  <div className="h-2 bg-slate-100 rounded w-3/4" />
-                  <div className="grid grid-cols-4 gap-1 mt-3">
-                    {[...Array(8)].map((_, i) => (
-                      <div key={i} className="h-6 bg-slate-100 rounded text-[8px] flex items-center justify-center text-slate-400">
-                        {i + 1}
-                      </div>
-                    ))}
-                  </div>
-                  <div className="mt-3 h-7 bg-emerald-400 rounded text-[10px] flex items-center justify-center text-white font-semibold">
-                    Buy Now
-                  </div>
-                  <div className="h-7 bg-slate-100 rounded text-[10px] flex items-center justify-center text-slate-600">
-                    Schedule Release
-                  </div>
-                </div>
-              </div>
-            </div>
+          {/* Trust strip */}
+          <div className="mt-16 flex items-center justify-center gap-8 text-xs text-white/40 font-mono uppercase tracking-widest flex-wrap">
+            <span>Stellar</span>
+            <span className="w-1 h-1 rounded-full bg-white/20" />
+            <span>USDC</span>
+            <span className="w-1 h-1 rounded-full bg-white/20" />
+            <span>Soroban</span>
+            <span className="w-1 h-1 rounded-full bg-white/20" />
+            <span>Paystack</span>
           </div>
         </div>
       </section>
 
-      {/* FEATURES */}
-      <section id="features" className="bg-slate-50 py-20">
+      {/* FEATURES — 3 only */}
+      <section id="features" className="py-24 border-t border-white/5">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="text-center mb-14">
-            <h2 className="text-3xl md:text-4xl font-bold text-slate-900">Financial tools built for you</h2>
-            <p className="mt-3 text-slate-600 max-w-xl mx-auto">
-              Our ecosystem is designed to bridge the gap between traditional finance and the decentralized world.
-            </p>
+          <div className="text-center mb-16">
+            <p className="text-xs font-semibold text-[#00D98B] uppercase tracking-widest mb-3">What we build</p>
+            <h2 className="text-4xl md:text-5xl font-bold tracking-tight">Three powerful tools.<br />One dashboard.</h2>
           </div>
-          <div className="grid md:grid-cols-3 gap-6">
+          <div className="grid md:grid-cols-3 gap-5">
             {[
-              { icon: Gift, title: 'Gift Card Redemption', desc: 'Convert your USDC and crypto assets into premium gift cards from 500+ global brands instantly with zero extra fees.' },
-              { icon: DollarSign, title: 'Freelancer Escrow', desc: 'Seamlessly swap your crypto to local currency. Fast, secure, and regulated withdrawals directly to your bank account.' },
-              { icon: Lock, title: 'Nexol VaultScheduler', desc: 'Automate your financial future. Schedule recurring daily or weekly savings from your wallet into dedicated vaults.' },
-            ].map(({ icon: Icon, title, desc }) => (
-              <div key={title} className="bg-white p-7 rounded-2xl border border-slate-100 hover:shadow-md transition">
-                <div className="w-11 h-11 rounded-xl bg-emerald-50 flex items-center justify-center mb-5">
-                  <Icon className="w-5 h-5 text-emerald-500" />
+              {
+                icon: Calendar,
+                title: 'Income Scheduler',
+                desc: 'Lock USDC and stream weekly payouts to your wallet. Set it once — Stellar releases on schedule.',
+                accent: 'For freelancers managing irregular income',
+              },
+              {
+                icon: Gift,
+                title: 'Gift Card to USDT',
+                desc: 'Redeem gift cards from 50+ brands and receive USDT instantly in your wallet.',
+                accent: '500+ supported brands',
+              },
+              {
+                icon: ShieldCheck,
+                title: 'Freelancer Escrow',
+                desc: 'Lock client funds in Stellar escrow, deliver milestone work, get paid on approval. 72h auto-release.',
+                accent: 'Trustless & on-chain',
+              },
+            ].map(({ icon: Icon, title, desc, accent }) => (
+              <div
+                key={title}
+                className="group bg-[#131B24] p-7 rounded-2xl border border-white/5 hover:border-[#00D98B]/30 transition relative overflow-hidden"
+              >
+                <div className="absolute -top-12 -right-12 w-32 h-32 bg-[#00D98B]/0 group-hover:bg-[#00D98B]/10 rounded-full blur-2xl transition" />
+                <div className="w-12 h-12 rounded-xl bg-[#00D98B]/10 border border-[#00D98B]/20 flex items-center justify-center mb-6 relative">
+                  <Icon className="w-5 h-5 text-[#00D98B]" />
                 </div>
-                <h3 className="font-bold text-slate-900 mb-2">{title}</h3>
-                <p className="text-sm text-slate-600 leading-relaxed">{desc}</p>
+                <h3 className="font-bold text-lg mb-2 relative">{title}</h3>
+                <p className="text-sm text-white/60 leading-relaxed mb-5 relative">{desc}</p>
+                <p className="text-xs font-mono uppercase tracking-wider text-[#00D98B]/70 relative">{accent}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* SCHEDULING */}
-      <section id="products" className="py-24 bg-white">
+      {/* HOW IT WORKS — Freelancer Escrow spotlight */}
+      <section id="how" className="py-24 border-t border-white/5">
         <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-16 items-center">
-          <div className="bg-emerald-100/60 rounded-3xl aspect-square flex items-center justify-center p-12">
-            <div className="bg-white rounded-2xl shadow-lg p-6 w-48 h-64">
-              <p className="text-xs font-semibold text-slate-400 mb-2">Savings Scheduler</p>
-              <div className="space-y-2 mt-3">
-                <div className="h-2 bg-slate-100 rounded" />
-                <div className="h-2 bg-slate-100 rounded w-4/5" />
-                <div className="h-2 bg-slate-100 rounded w-3/5" />
-                <div className="h-2 bg-emerald-200 rounded w-2/5 mt-4" />
-              </div>
-            </div>
-          </div>
           <div>
-            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 leading-tight">
-              Save smarter with automated scheduling
+            <p className="text-xs font-semibold text-[#00D98B] uppercase tracking-widest mb-3">Freelancer Escrow</p>
+            <h2 className="text-3xl md:text-5xl font-bold leading-tight tracking-tight">
+              Get paid for the work you actually shipped.
             </h2>
-            <p className="mt-4 text-slate-600 leading-relaxed">
-              Never miss a beat in your wealth-building journey. With Nexol Vault, you can set up automated transfers from your USDC wallet to your Emergency Fund or Savings Vault in just a few taps.
+            <p className="mt-5 text-white/60 leading-relaxed text-lg">
+              Create a contract in 60 seconds. Send your client a link. Funds get locked in Stellar escrow. You release one milestone at a time.
             </p>
-            <ul className="mt-6 space-y-3">
-              {['Daily or weekly automated transfers', 'Real-time exchange rate approximations', 'Secure vaults powered by smart contracts'].map((item) => (
-                <li key={item} className="flex items-center gap-3 text-slate-700">
-                  <span className="w-5 h-5 rounded-full bg-emerald-100 flex items-center justify-center">
-                    <Check className="w-3 h-3 text-emerald-500" />
+            <ul className="mt-8 space-y-4">
+              {[
+                'Client funds escrow on Stellar testnet — verifiable on-chain',
+                'Milestone-based releases with deliverable proof',
+                '72-hour auto-release if client goes silent',
+                'Zero platform fee on the contract itself',
+              ].map((item) => (
+                <li key={item} className="flex items-start gap-3 text-white/80">
+                  <span className="w-5 h-5 rounded-full bg-[#00D98B]/15 border border-[#00D98B]/30 flex items-center justify-center mt-0.5 flex-shrink-0">
+                    <Check className="w-3 h-3 text-[#00D98B]" />
                   </span>
-                  {item}
+                  <span className="text-sm">{item}</span>
                 </li>
               ))}
             </ul>
+            <Link
+              to="/signup"
+              className="mt-9 inline-flex items-center gap-2 text-[#00D98B] font-semibold text-sm hover:gap-3 transition-all"
+            >
+              Create your first contract <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
+
+          {/* Mock contract card */}
+          <div className="relative">
+            <div className="absolute inset-0 bg-[#00D98B]/10 rounded-3xl blur-3xl" />
+            <div className="relative bg-[#131B24] border border-white/10 rounded-3xl p-7 shadow-2xl">
+              <div className="flex items-center justify-between mb-5">
+                <div>
+                  <p className="text-[10px] font-mono uppercase tracking-widest text-white/40">Contract NXC-9417</p>
+                  <p className="font-bold mt-1">Brand Identity for Acme Co.</p>
+                </div>
+                <span className="text-[10px] font-bold uppercase px-2.5 py-1 rounded-full bg-[#00D98B]/15 text-[#00D98B] border border-[#00D98B]/25">
+                  Active
+                </span>
+              </div>
+              <div className="bg-[#0A0A0A]/60 rounded-xl p-4 mb-5 border border-white/5">
+                <p className="text-xs text-white/40 mb-1">In escrow</p>
+                <p className="font-mono text-2xl font-bold text-[#00D98B]">$4,500.00</p>
+                <p className="text-[10px] text-white/40 mt-1 font-mono">GAXX...K7Q2 · Stellar</p>
+              </div>
+              <div className="space-y-3">
+                {[
+                  { n: 1, t: 'Discovery & Mood Boards', amt: '$1,000', s: 'paid' },
+                  { n: 2, t: 'Logo Concepts', amt: '$1,500', s: 'pending' },
+                  { n: 3, t: 'Final Brand Kit', amt: '$2,000', s: 'locked' },
+                ].map((m) => (
+                  <div key={m.n} className="flex items-center justify-between p-3 rounded-lg bg-white/[0.02] border border-white/5">
+                    <div className="flex items-center gap-3">
+                      <div className={`w-2 h-2 rounded-full ${m.s === 'paid' ? 'bg-[#00D98B]' : m.s === 'pending' ? 'bg-amber-400 animate-pulse' : 'bg-white/20'}`} />
+                      <div>
+                        <p className="text-sm font-medium">{m.n}. {m.t}</p>
+                        <p className="text-[10px] uppercase tracking-wider text-white/40 mt-0.5">
+                          {m.s === 'paid' ? 'Released' : m.s === 'pending' ? 'Awaiting approval' : 'Locked'}
+                        </p>
+                      </div>
+                    </div>
+                    <p className="font-mono text-sm">{m.amt}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* PARTNERS */}
-      <section id="security" className="py-16 border-t border-slate-100">
-        <div className="max-w-7xl mx-auto px-6 text-center">
-          <p className="text-xs font-semibold tracking-widest text-slate-400 mb-4">
-            ECOSYSTEM PARTNERS & SECURITY
+      {/* SECURITY */}
+      <section id="security" className="py-24 border-t border-white/5">
+        <div className="max-w-5xl mx-auto px-6 text-center">
+          <p className="text-xs font-semibold text-[#00D98B] uppercase tracking-widest mb-3">Security</p>
+          <h2 className="text-3xl md:text-5xl font-bold tracking-tight">Built on Stellar. Verifiable on-chain.</h2>
+          <p className="mt-5 text-white/60 max-w-2xl mx-auto leading-relaxed">
+            Every escrow account is funded via Stellar friendbot on testnet. Every release is a real Horizon transaction you can inspect in any Stellar explorer.
           </p>
-          <div className="flex items-center justify-center gap-3">
-            <div className="w-7 h-7 rounded-full border-2 border-slate-300" />
-            <span className="text-lg font-semibold text-slate-700 tracking-wide">STELLAR FOUNDATION</span>
+          <div className="mt-12 grid sm:grid-cols-3 gap-4">
+            {[
+              { icon: Lock, title: 'Non-custodial escrow', desc: 'Funds locked at the protocol level, not held by us.' },
+              { icon: Zap, title: 'Sub-5s settlement', desc: 'Stellar finalizes transfers in seconds, not days.' },
+              { icon: ShieldCheck, title: 'Auditable receipts', desc: 'Every milestone release links to a Stellar tx hash.' },
+            ].map(({ icon: Icon, title, desc }) => (
+              <div key={title} className="bg-[#131B24] border border-white/5 rounded-2xl p-6 text-left">
+                <Icon className="w-5 h-5 text-[#00D98B] mb-4" />
+                <p className="font-bold mb-1.5">{title}</p>
+                <p className="text-sm text-white/60 leading-relaxed">{desc}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
       {/* CTA */}
-      <section className="py-16 px-6">
-        <div className="max-w-5xl mx-auto bg-slate-900 rounded-3xl p-12 md:p-16 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold text-white">
-            Ready to upgrade your financial life?
-          </h2>
-          <p className="mt-4 text-slate-400 max-w-lg mx-auto">
-            Join 10,000+ users who trust NexolPay for their daily crypto transactions and savings.
-          </p>
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
+      <section className="py-20 px-6">
+        <div className="max-w-5xl mx-auto bg-gradient-to-br from-[#131B24] to-[#0A0A0A] border border-[#00D98B]/20 rounded-[2rem] p-12 md:p-16 text-center relative overflow-hidden">
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[400px] h-[400px] bg-[#00D98B]/15 rounded-full blur-3xl" />
+          <div className="relative">
+            <h2 className="text-3xl md:text-5xl font-bold tracking-tight">
+              Ready to get paid <span className="text-[#00D98B]">on-chain?</span>
+            </h2>
+            <p className="mt-4 text-white/60 max-w-lg mx-auto">
+              Free to start. No credit card. Live on Stellar testnet today.
+            </p>
             <Link
               to="/signup"
-              className="bg-emerald-400 text-slate-900 font-semibold px-7 py-3 rounded-full hover:bg-emerald-300 transition"
+              className="mt-9 inline-flex items-center gap-2 bg-[#00D98B] text-[#0A0A0A] font-semibold px-8 py-4 rounded-full hover:bg-[#00C77E] transition"
             >
-              Get Started Now
+              Get Started Free <ArrowRight className="w-4 h-4" />
             </Link>
-            <a
-              href="mailto:hello@nexolpay.com"
-              className="bg-slate-800 text-white font-medium px-7 py-3 rounded-full hover:bg-slate-700 transition"
-            >
-              Contact Sales
-            </a>
           </div>
         </div>
       </section>
 
       {/* FOOTER */}
-      <footer id="company" className="border-t border-slate-100 py-14 px-6">
-        <div className="max-w-7xl mx-auto grid md:grid-cols-4 gap-10">
-          <div>
-            <div className="flex items-center gap-1 mb-3">
-              <span className="text-lg font-bold text-slate-900">Nexol</span>
-              <span className="text-lg font-bold text-emerald-400">Pay</span>
-            </div>
-            <p className="text-sm text-slate-500 leading-relaxed max-w-xs">
-              The all-in-one financial dashboard for the modern digital era. Built on Base for speed, security, and low fees.
-            </p>
-            <div className="flex gap-3 mt-4">
-              <a href="#" className="w-8 h-8 rounded-full border border-slate-200 flex items-center justify-center text-slate-500 hover:text-emerald-500 text-xs font-bold">
-                𝕏
-              </a>
-              <a href="#" className="w-8 h-8 rounded-full border border-slate-200 flex items-center justify-center text-slate-500 hover:text-emerald-500 text-xs font-bold">
-                in
-              </a>
-            </div>
+      <footer className="border-t border-white/5 py-12 px-6">
+        <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-6">
+          <div className="flex items-center gap-1.5">
+            <span className="text-lg font-bold">Nexol</span>
+            <span className="text-lg font-bold text-[#00D98B]">Pay</span>
           </div>
-          {[
-            { title: 'Product', links: ['Gift Cards', 'Off-ramp', 'Vaults', 'API Docs'] },
-            { title: 'Company', links: ['About Us', 'Careers', 'Security', 'Contact'] },
-            { title: 'Legal', links: ['Privacy Policy', 'Terms of Service', 'Cookie Policy'] },
-          ].map((col) => (
-            <div key={col.title}>
-              <h4 className="font-semibold text-slate-900 mb-4">{col.title}</h4>
-              <ul className="space-y-2.5 text-sm text-slate-500">
-                {col.links.map((l) => (
-                  <li key={l}><a href="#" className="hover:text-slate-900">{l}</a></li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </div>
-        <div className="max-w-7xl mx-auto mt-12 pt-6 border-t border-slate-100 flex flex-wrap justify-between gap-3 text-xs text-slate-400">
-          <span>© 2025 NexolPay Technologies. All rights reserved.</span>
-          <span>Built with precision on Base Blockchain.</span>
+          <p className="text-xs text-white/40">© 2025 NexolPay. Built on Stellar.</p>
+          <div className="flex gap-5 text-xs text-white/40">
+            <a href="#" className="hover:text-white transition">Privacy</a>
+            <a href="#" className="hover:text-white transition">Terms</a>
+            <a href="mailto:hello@nexolpay.com" className="hover:text-white transition">Contact</a>
+          </div>
         </div>
       </footer>
     </div>

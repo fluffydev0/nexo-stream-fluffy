@@ -49,6 +49,20 @@ function generateStellarKeypair(): { publicKey: string; secret: string } {
   };
 }
 
+// Fund a Stellar testnet account via friendbot — creates the account on-chain with 10,000 XLM
+async function fundTestnetAccount(publicKey: string): Promise<{ funded: boolean; tx_hash?: string; error?: string }> {
+  try {
+    const res = await fetch(`https://friendbot.stellar.org?addr=${encodeURIComponent(publicKey)}`);
+    const json = await res.json();
+    if (!res.ok) {
+      return { funded: false, error: json?.detail ?? json?.title ?? `friendbot http ${res.status}` };
+    }
+    return { funded: true, tx_hash: json?.hash };
+  } catch (err) {
+    return { funded: false, error: (err as Error).message };
+  }
+}
+
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers":
@@ -126,8 +140,14 @@ Deno.serve(async (req) => {
 
     const admin = createClient(supabaseUrl, serviceKey);
 
-    // Generate Stellar testnet escrow keypair
+    // Generate Stellar testnet escrow keypair and fund it on-chain via friendbot
     const escrow = generateStellarKeypair();
+    const fundRes = await fundTestnetAccount(escrow.publicKey);
+    if (!fundRes.funded) {
+      console.warn("friendbot funding failed, continuing with off-chain escrow record:", fundRes.error);
+    } else {
+      console.log("escrow funded on testnet:", escrow.publicKey, "tx:", fundRes.tx_hash);
+    }
 
     // Generate contract code
     const { data: codeData, error: codeErr } = await admin.rpc(
@@ -175,13 +195,19 @@ Deno.serve(async (req) => {
       .insert(milestoneRows);
     if (msErr) throw msErr;
 
-    // Log event
+    // Log event with on-chain creation receipt
     await admin.from("contract_events").insert({
       contract_id: contract.id,
       actor_id: user.id,
       actor_role: "freelancer",
       event_type: "contract_created",
-      details: { milestones: body.milestones.length, total: body.total_amount },
+      details: {
+        milestones: body.milestones.length,
+        total: body.total_amount,
+        escrow_pubkey: escrow.publicKey,
+        escrow_funded_onchain: fundRes.funded,
+        friendbot_tx_hash: fundRes.tx_hash ?? null,
+      },
     });
 
     return new Response(
@@ -191,6 +217,8 @@ Deno.serve(async (req) => {
         contract_code: contract.contract_code,
         public_share_code: contract.public_share_code,
         escrow_pubkey: contract.escrow_pubkey,
+        escrow_funded_onchain: fundRes.funded,
+        friendbot_tx_hash: fundRes.tx_hash ?? null,
       }),
       { headers: { ...corsHeaders, "Content-Type": "application/json" } },
     );
