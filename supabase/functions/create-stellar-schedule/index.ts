@@ -148,6 +148,31 @@ Deno.serve(async (req) => {
       });
     }
 
+    // Authoritative balance check — never trust the client
+    const { data: userRow, error: userErr } = await supabase
+      .from("users")
+      .select("usdc_balance")
+      .eq("id", user.id)
+      .single();
+
+    if (userErr || !userRow) {
+      return new Response(JSON.stringify({ error: "Could not load wallet balance" }), {
+        status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
+    const currentBalance = Number(userRow.usdc_balance ?? 0);
+    if (currentBalance < total) {
+      return new Response(
+        JSON.stringify({
+          error: `Insufficient USDC balance. Available: $${currentBalance.toFixed(2)}, requested: $${total.toFixed(2)}. Deposit USDC to your wallet first.`,
+          available_balance: currentBalance,
+          requested: total,
+        }),
+        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } },
+      );
+    }
+
     // Generate Stellar testnet escrow account
     const keypair = generateStellarKeypair();
     const fundResult = await fundTestnetAccount(keypair.publicKey);
@@ -175,6 +200,20 @@ Deno.serve(async (req) => {
 
     if (posErr || !position) {
       return new Response(JSON.stringify({ error: posErr?.message ?? "Failed to create position" }), {
+        status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
+    // Deduct locked amount from user's wallet balance
+    const { error: deductErr } = await supabase
+      .from("users")
+      .update({ usdc_balance: currentBalance - total })
+      .eq("id", user.id);
+
+    if (deductErr) {
+      // rollback position
+      await supabase.from("scheduler_positions").delete().eq("id", position.id);
+      return new Response(JSON.stringify({ error: `Failed to debit wallet: ${deductErr.message}` }), {
         status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }

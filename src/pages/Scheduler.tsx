@@ -27,7 +27,7 @@ interface Transaction {
 }
 
 export default function Scheduler() {
-  const { user, profile } = useAuth();
+  const { user, profile, refreshProfile } = useAuth();
   const { connected, address } = useWallet();
   const [positions, setPositions] = useState<Position[]>([]);
   const [showModal, setShowModal] = useState(false);
@@ -64,13 +64,21 @@ export default function Scheduler() {
   const weeklyAmount = tab === 'monthly' ? Number(amount) / 4 : Number(amount);
   const numWeeks = tab === 'monthly' ? 4 : 1;
 
+  const availableBalance = Number(profile?.usdc_balance ?? 0);
+
   const handleCreate = async () => {
     if (!amount || Number(amount) <= 0) return;
     if (!connected || !address) {
       setError('Please connect your wallet first');
       return;
     }
-    
+    if (Number(amount) > availableBalance) {
+      setError(
+        `Insufficient USDC balance. You have $${availableBalance.toFixed(2)} but tried to lock $${Number(amount).toFixed(2)}. Deposit USDC to your wallet first.`
+      );
+      return;
+    }
+
     setShowConfirm(true);
   };
 
@@ -98,11 +106,17 @@ export default function Scheduler() {
 
       // Transaction created server-side, no client signing needed for EVM
 
+      // Surface server-side errors (e.g. insufficient balance) returned in the function body
+      if (data && (data as any).error) {
+        throw new Error((data as any).error);
+      }
+
       setShowModal(false);
       setAmount('');
-      fetchPositions();
+      await Promise.all([fetchPositions(), refreshProfile()]);
     } catch (err: any) {
       setError(err.message ?? 'Failed to create schedule');
+      setShowModal(true);
     }
 
     setLoading(false);
@@ -308,11 +322,21 @@ export default function Scheduler() {
             </p>
 
             <div>
-              <label className="block text-sm font-medium text-muted-foreground mb-2">
-                {tab === '7day' ? 'Lock Amount (USDC)' : 'Monthly Income (USDC)'}
-              </label>
+              <div className="flex items-center justify-between mb-2">
+                <label className="block text-sm font-medium text-muted-foreground">
+                  {tab === '7day' ? 'Lock Amount (USDC)' : 'Monthly Income (USDC)'}
+                </label>
+                <span className="text-xs text-muted-foreground">
+                  Available: <span className="font-mono text-foreground">${availableBalance.toFixed(2)}</span>
+                </span>
+              </div>
               <input type="number" value={amount} onChange={(e) => setAmount(e.target.value)}
-                className="nexol-input font-mono text-lg" placeholder="0.00" min="1" />
+                className="nexol-input font-mono text-lg" placeholder="0.00" min="1" max={availableBalance} />
+              {availableBalance === 0 && (
+                <p className="text-xs text-amber mt-2">
+                  You have $0.00 USDC. Deposit funds in your Wallet before creating a schedule.
+                </p>
+              )}
             </div>
 
             {tab === 'monthly' && Number(amount) > 0 && (
@@ -384,7 +408,7 @@ export default function Scheduler() {
               </div>
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Network:</span>
-                <span className="text-foreground">Stellar Mainnet</span>
+                <span className="text-foreground">Stellar Testnet</span>
               </div>
             </div>
             <div className="flex gap-3">
