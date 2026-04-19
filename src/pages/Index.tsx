@@ -35,14 +35,14 @@ const Index = () => {
         <div className="max-w-5xl mx-auto px-6 pt-24 pb-20 md:pt-32 md:pb-28 text-center relative">
           <span className="inline-flex items-center gap-2 text-xs font-medium text-[#00D98B] bg-[#00D98B]/10 border border-[#00D98B]/20 px-4 py-1.5 rounded-full mb-8">
             <span className="w-1.5 h-1.5 rounded-full bg-[#00D98B] animate-pulse" />
-            Built for Africa's creator economy
+            The financial OS for Africa's creator economy
           </span>
           <h1 className="text-5xl md:text-7xl font-bold leading-[1.05] tracking-tight">
-            Your work is global.<br />
-            <span className="text-[#00D98B]">Your money should be too.</span>
+            Global income.<br />
+            <span className="text-[#00D98B]">Local control.</span>
           </h1>
-          <p className="mt-7 text-white/60 text-lg max-w-2xl mx-auto leading-relaxed">
-            You design for clients in London, write for brands in New York, and build products for startups in Dubai. But when it comes to getting paid, saving what you earn, and protecting your work — the system was never built for you. NexolPay is.
+          <p className="mt-7 text-white/60 text-lg max-w-xl mx-auto leading-relaxed">
+            Get paid, protect contracts, and grow your earnings — built for freelancers and creators working across borders.
           </p>
           <div className="mt-10 flex items-center justify-center gap-3 flex-wrap">
             <Link
@@ -74,8 +74,8 @@ const Index = () => {
       <section className="border-y border-white/5 bg-[#0A0A0A]">
         <div className="max-w-4xl mx-auto px-6 py-16 text-center">
           <p className="text-2xl md:text-4xl font-bold leading-tight tracking-tight text-white/90">
-            African freelancers earn globally.<br />
-            Getting paid, saving it, and spending it locally? <span className="text-[#00D98B]">That part was broken. Until now.</span>
+            Earning globally is solved.<br />
+            <span className="text-[#00D98B]">Everything after the invoice isn't.</span>
           </p>
         </div>
       </section>
@@ -84,12 +84,12 @@ const Index = () => {
       <section id="features" className="py-24">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-16 max-w-2xl mx-auto">
-            <p className="text-xs font-semibold text-[#00D98B] uppercase tracking-widest mb-3">The Platform</p>
+            <p className="text-xs font-semibold text-[#00D98B] uppercase tracking-widest mb-3">Platform</p>
             <h2 className="text-4xl md:text-5xl font-bold tracking-tight leading-tight">
-              Everything your money needs.<br />Finally in one place.
+              Four products. One wallet.
             </h2>
             <p className="mt-5 text-white/60 leading-relaxed">
-              From landing a client to locking in savings — NexolPay handles the parts that used to keep you up at night.
+              Everything you need to earn, protect, and grow money across borders.
             </p>
           </div>
 
@@ -97,31 +97,31 @@ const Index = () => {
             {[
               {
                 icon: ShieldCheck,
-                title: 'Stop working on faith.\nStart working on contract.',
-                story: "You've been there. You deliver the work, send the invoice, and then wait. And wait. The client goes quiet. The money never comes. NexolPay Escrow changes the deal — the client locks payment before you lift a single finger. You see the funds are secured. Then you get to work. When you hit a milestone and the client approves, the money releases. If they ghost you for 72 hours? It releases anyway. No chasing. No awkward follow-ups. No more working on promises.",
-                benefit: 'Get paid for the work you actually delivered.',
-                cta: 'Protect your next project',
+                title: 'Freelance Escrow',
+                story: "Clients fund the contract before you start. You deliver, they approve, funds release. Auto-release in 72 hours if they go quiet — no chasing invoices.",
+                benefit: 'Milestone-based payments, secured upfront.',
+                cta: 'Create a contract',
               },
               {
                 icon: Gift,
-                title: 'That Amazon gift card in your inbox\nis worth real money. Claim it.',
-                story: "A client in the US paid you with an Amazon gift card. Your international platform sent an Apple reward. You have gift cards sitting in your email worth hundreds of dollars — and no easy way to turn them into cash you can actually use. NexolPay converts gift cards from 500+ global brands into USDT, deposited straight into your wallet. No middlemen taking a 40% cut. No WhatsApp trader you found in a group chat. Just your money, in your account, fast.",
-                benefit: 'Turn stuck value into spendable USDT in minutes.',
-                cta: 'Convert your gift cards',
+                title: 'Gift Cards → USDT',
+                story: "Convert gift cards from 500+ global brands directly into USDT in your wallet. Competitive rates, no middlemen, settled in minutes.",
+                benefit: 'Liquidate idle gift cards into spendable crypto.',
+                cta: 'Convert a card',
               },
               {
                 icon: Calendar,
-                title: 'You earned it in one day.\nYou don\'t have to spend it in one week.',
-                story: "Freelance income is feast or famine. One month you land three projects and feel rich. Two weeks later you're rationing data and eating jollof for the fifth day. The problem isn't how much you earn — it's that it all arrives at once and disappears before you can think. The NexolPay Income Scheduler splits your earnings into weekly allowances, paid directly to your wallet like a salary. Deposit what you earned. Tell NexolPay how long to spread it. Watch $250 land every Monday — even when no new work comes in. Financial discipline, without the discipline.",
-                benefit: 'Pay yourself weekly. Every week. Even in the slow months.',
-                cta: 'Set up your income flow',
+                title: 'Income Scheduler',
+                story: "Deposit a lump sum and split it into automatic weekly payouts to your wallet. Smooth out feast-or-famine income without thinking about it.",
+                benefit: 'Programmable salary from irregular earnings.',
+                cta: 'Schedule payouts',
               },
               {
                 icon: Lock,
-                title: 'Your savings should be working\nas hard as you are.',
-                story: "You've been keeping your earnings in a wallet, watching them sit. Or worse — keeping them in a bank account that pays you back almost nothing while inflation quietly eats it. NexolPay Vault lets you lock a portion of your income for 3, 6, or 12 months and earn up to 12.5% APY while it sits. The longer you lock, the more you earn. You can't touch it early — which is kind of the point. When it unlocks, your principal comes back with yield attached. Your money grew while you were busy living.",
-                benefit: 'Lock it. Leave it. Come back to more.',
-                cta: 'Open your vault',
+                title: 'Yield Vault',
+                story: "Lock USDC for 3, 6, or 12 months and earn up to 12.5% APY. Longer locks, higher yield. Principal and interest released at maturity.",
+                benefit: 'High-yield savings, fixed terms.',
+                cta: 'Open a vault',
               },
             ].map(({ icon: Icon, title, story, benefit, cta }) => (
               <div
@@ -132,7 +132,7 @@ const Index = () => {
                 <div className="w-12 h-12 rounded-xl bg-[#00D98B]/10 border border-[#00D98B]/20 flex items-center justify-center mb-6 relative">
                   <Icon className="w-5 h-5 text-[#00D98B]" />
                 </div>
-                <h3 className="font-bold text-xl md:text-2xl mb-4 relative whitespace-pre-line leading-tight tracking-tight">{title}</h3>
+                <h3 className="font-bold text-xl md:text-2xl mb-4 relative leading-tight tracking-tight">{title}</h3>
                 <p className="text-sm text-white/60 leading-relaxed mb-5 relative">{story}</p>
                 <p className="text-sm text-white font-medium mb-5 relative">{benefit}</p>
                 <Link to="/signup" className="inline-flex items-center gap-2 text-[#00D98B] font-semibold text-sm hover:gap-3 transition-all relative">
@@ -149,14 +149,14 @@ const Index = () => {
         <div className="max-w-6xl mx-auto px-6">
           <div className="text-center mb-16 max-w-2xl mx-auto">
             <h2 className="text-4xl md:text-5xl font-bold tracking-tight leading-tight">
-              Set up in minutes.<br />Run on autopilot after that.
+              Live in minutes. Automated for life.
             </h2>
           </div>
           <div className="grid md:grid-cols-3 gap-6">
             {[
-              { n: '01', title: 'Create your account', desc: 'Sign up free. No credit card. KYC takes 2 minutes.' },
-              { n: '02', title: 'Connect your money', desc: 'Deposit USDC, convert a gift card, or send a client a contract link.' },
-              { n: '03', title: 'Let NexolPay handle the rest', desc: 'Schedule income. Lock savings. Get paid on approval. You focus on the work — we handle the money.' },
+              { n: '01', title: 'Sign up', desc: 'Create a free account. KYC in under 2 minutes.' },
+              { n: '02', title: 'Fund your wallet', desc: 'Deposit USDC, convert a gift card, or send a client a contract link.' },
+              { n: '03', title: 'Automate', desc: 'Schedule payouts, lock savings, and release milestone payments — hands-free.' },
             ].map((step) => (
               <div key={step.n} className="bg-[#131B24] border border-white/5 rounded-2xl p-7">
                 <p className="text-[#00D98B] font-mono text-sm mb-4">{step.n}</p>
@@ -173,7 +173,7 @@ const Index = () => {
         <div className="max-w-6xl mx-auto px-6">
           <div className="text-center mb-14 max-w-2xl mx-auto">
             <h2 className="text-3xl md:text-4xl font-bold tracking-tight leading-tight">
-              Built with feedback from real freelancers in Lagos, Accra, and Nairobi.
+              Trusted by creators across Lagos, Accra, and Nairobi.
             </h2>
           </div>
           <div className="grid md:grid-cols-3 gap-5">
@@ -211,11 +211,11 @@ const Index = () => {
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[500px] h-[500px] bg-[#00D98B]/15 rounded-full blur-3xl" />
           <div className="relative">
             <h2 className="text-3xl md:text-5xl font-bold tracking-tight leading-tight">
-              You've been working hard.<br />
-              <span className="text-[#00D98B]">It's time your money worked too.</span>
+              Make your money<br />
+              <span className="text-[#00D98B]">work as hard as you do.</span>
             </h2>
             <p className="mt-5 text-white/60 max-w-xl mx-auto leading-relaxed">
-              Join thousands of African freelancers and creators who are done leaving money on the table. Your first contract, your first conversion, your first weekly payout — it all starts here.
+              Join 2,000+ creators using NexolPay to get paid, protect contracts, and grow earnings.
             </p>
             <div className="mt-9 flex items-center justify-center gap-3 flex-wrap">
               <Link
