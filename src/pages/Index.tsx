@@ -178,9 +178,9 @@ const Index = () => {
           </div>
           <div className="grid md:grid-cols-3 gap-5">
             {[
-              { q: 'I used to dread sending invoices. Now I just send the contract link. Client funds it, I deliver, I get paid. That\'s it.', a: 'UI Designer, Lagos' },
-              { q: 'I had three Amazon gift cards sitting in my email for months. Converted all of them to USDT in under 5 minutes.', a: 'Content writer, Abuja' },
-              { q: 'The weekly payout feature saved me. I landed a big project in January and I\'m still receiving from it in March.', a: 'Brand strategist, Accra' },
+              { q: 'Send the contract link, get funded, deliver, get paid. No more chasing invoices.', a: 'UI Designer, Lagos' },
+              { q: 'Cleared three Amazon gift cards into USDT in under five minutes. Rate was fair too.', a: 'Content writer, Abuja' },
+              { q: 'Weekly payouts smoothed out my income. Big January project still funding my March.', a: 'Brand strategist, Accra' },
             ].map((t) => (
               <div key={t.a} className="bg-[#131B24] border border-white/5 rounded-2xl p-7">
                 <p className="text-white/80 leading-relaxed mb-5">"{t.q}"</p>
