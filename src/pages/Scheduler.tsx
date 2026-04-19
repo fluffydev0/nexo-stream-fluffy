@@ -27,7 +27,7 @@ interface Transaction {
 }
 
 export default function Scheduler() {
-  const { user, profile } = useAuth();
+  const { user, profile, refreshProfile } = useAuth();
   const { connected, address } = useWallet();
   const [positions, setPositions] = useState<Position[]>([]);
   const [showModal, setShowModal] = useState(false);
@@ -106,11 +106,17 @@ export default function Scheduler() {
 
       // Transaction created server-side, no client signing needed for EVM
 
+      // Surface server-side errors (e.g. insufficient balance) returned in the function body
+      if (data && (data as any).error) {
+        throw new Error((data as any).error);
+      }
+
       setShowModal(false);
       setAmount('');
-      fetchPositions();
+      await Promise.all([fetchPositions(), refreshProfile()]);
     } catch (err: any) {
       setError(err.message ?? 'Failed to create schedule');
+      setShowModal(true);
     }
 
     setLoading(false);
@@ -402,7 +408,7 @@ export default function Scheduler() {
               </div>
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Network:</span>
-                <span className="text-foreground">Stellar Mainnet</span>
+                <span className="text-foreground">Stellar Testnet</span>
               </div>
             </div>
             <div className="flex gap-3">
