@@ -316,11 +316,21 @@ export default function Scheduler() {
             </p>
 
             <div>
-              <label className="block text-sm font-medium text-muted-foreground mb-2">
-                {tab === '7day' ? 'Lock Amount (USDC)' : 'Monthly Income (USDC)'}
-              </label>
+              <div className="flex items-center justify-between mb-2">
+                <label className="block text-sm font-medium text-muted-foreground">
+                  {tab === '7day' ? 'Lock Amount (USDC)' : 'Monthly Income (USDC)'}
+                </label>
+                <span className="text-xs text-muted-foreground">
+                  Available: <span className="font-mono text-foreground">${availableBalance.toFixed(2)}</span>
+                </span>
+              </div>
               <input type="number" value={amount} onChange={(e) => setAmount(e.target.value)}
-                className="nexol-input font-mono text-lg" placeholder="0.00" min="1" />
+                className="nexol-input font-mono text-lg" placeholder="0.00" min="1" max={availableBalance} />
+              {availableBalance === 0 && (
+                <p className="text-xs text-amber mt-2">
+                  You have $0.00 USDC. Deposit funds in your Wallet before creating a schedule.
+                </p>
+              )}
             </div>
 
             {tab === 'monthly' && Number(amount) > 0 && (
