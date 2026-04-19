@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Calendar, Gift, ShieldCheck, Lock, ArrowRight } from 'lucide-react';
+import nexolWatch from '@/assets/nexolpay-watch.png';
 
 const Index = () => {
   return (
@@ -77,6 +78,36 @@ const Index = () => {
             Earning globally is solved.<br />
             <span className="text-[#00D98B]">Everything after the invoice isn't.</span>
           </p>
+        </div>
+      </section>
+
+      {/* SHOWCASE — Already live */}
+      <section className="py-24 border-b border-white/5">
+        <div className="max-w-6xl mx-auto px-6">
+          <div className="text-center max-w-3xl mx-auto mb-12">
+            <h2 className="text-4xl md:text-6xl font-bold tracking-tight leading-[1.05]">
+              Already live. <span className="text-[#00D98B] italic font-light">Already working.</span>
+            </h2>
+            <p className="mt-5 text-white/60 leading-relaxed">
+              Real transactions, real speed. Beta infrastructure processing cross-border payments at the speed of light.
+            </p>
+          </div>
+          <div className="relative rounded-3xl overflow-hidden border border-white/5 bg-[#0a1410]">
+            <img
+              src={nexolWatch}
+              alt="NexolPay Income Scheduler — precision-engineered weekly payouts"
+              className="w-full h-auto object-cover"
+              loading="lazy"
+            />
+          </div>
+          <div className="mt-8 flex items-center justify-between flex-wrap gap-4">
+            <p className="text-sm font-semibold text-white/80">NexolPay Income Scheduler</p>
+            <div className="flex items-center gap-5 text-xs text-white/60 flex-wrap">
+              <span className="flex items-center gap-2"><span className="w-2 h-2 rounded-full bg-[#00D98B]" /> Beta live on Flutter</span>
+              <span className="flex items-center gap-2"><span className="w-2 h-2 rounded-full bg-[#00D98B]" /> Dashboard live on web</span>
+              <span className="flex items-center gap-2"><span className="w-2 h-2 rounded-full bg-amber-400" /> Waitlist open</span>
+            </div>
+          </div>
         </div>
       </section>
 
