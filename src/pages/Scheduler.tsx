@@ -64,13 +64,21 @@ export default function Scheduler() {
   const weeklyAmount = tab === 'monthly' ? Number(amount) / 4 : Number(amount);
   const numWeeks = tab === 'monthly' ? 4 : 1;
 
+  const availableBalance = Number(profile?.usdc_balance ?? 0);
+
   const handleCreate = async () => {
     if (!amount || Number(amount) <= 0) return;
     if (!connected || !address) {
       setError('Please connect your wallet first');
       return;
     }
-    
+    if (Number(amount) > availableBalance) {
+      setError(
+        `Insufficient USDC balance. You have $${availableBalance.toFixed(2)} but tried to lock $${Number(amount).toFixed(2)}. Deposit USDC to your wallet first.`
+      );
+      return;
+    }
+
     setShowConfirm(true);
   };
 
